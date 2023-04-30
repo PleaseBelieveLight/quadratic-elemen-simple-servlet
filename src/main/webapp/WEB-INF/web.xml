@@ -5,15 +5,37 @@
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
 
+  <!-- 角色登录 -->
   <servlet>
     <!-- 里面随便写只要保持和servlet-mapping标签里的servlet-name里的值一样就行 -->
-    <servlet-name>UserLoginService</servlet-name>
+    <servlet-name>UserLogin</servlet-name>
     <servlet-class>com.anim.study.service.UserLoginService</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>UserLoginService</servlet-name>
+    <servlet-name>UserLogin</servlet-name>
     <!-- 浏览器访问地址 -->
     <url-pattern>/login</url-pattern>
   </servlet-mapping>
+
+  <!-- 分类 -->
+  <servlet>
+    <servlet-name>RoleCategoryServlet</servlet-name>
+    <servlet-class>com.anim.study.service.RoleCategoryServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RoleCategoryServlet</servlet-name>
+    <url-pattern>/category</url-pattern>
+  </servlet-mapping>
+
+  <!-- 角色列表 -->
+  <servlet>
+    <servlet-name>RolesServlet</servlet-name>
+    <servlet-class>com.anim.study.service.RolesServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RolesServlet</servlet-name>
+    <url-pattern>/roles</url-pattern>
+  </servlet-mapping>
+
 
 </web-app>

@@ -27,5 +27,7 @@
 	<!-- 映射文件配置 -->
 	<mappers>
 		<mapper resource="com/mapper/UserMapper.xml"/>
+		<mapper resource="com/mapper/CategoryMapper.xml"/>
+		<mapper resource="com/mapper/RoleMapper.xml"/>
 	</mappers>
 </configuration>
