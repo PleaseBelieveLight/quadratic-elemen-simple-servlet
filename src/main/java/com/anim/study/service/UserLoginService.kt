@@ -5,6 +5,7 @@ import com.anim.study.bean.ErrorRequestException
 import com.anim.study.dao.UserMapper
 import com.anim.study.state.RespState
 import com.anim.study.utils.JsonUtils
+import com.anim.study.utils.LogUtils
 import com.anim.study.utils.print
 import com.anim.study.utils.printUsuallyState
 import jakarta.servlet.http.HttpServletRequest
@@ -27,7 +28,7 @@ class UserLoginService : BaseHttpServlet() {
             return
         }
 
-        printTitle("UserLoginService username = $username , password = $password")
+        LogUtils.printContent("UserLoginService username = $username , password = $password")
 
         getMapper(UserMapper::class.java)?.selectByPrimaryKey(username,password)?.let {
             resp.print(JsonUtils.serialize(BaseRespBean.getSucceedRespBean(it)))

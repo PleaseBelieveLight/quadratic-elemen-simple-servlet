@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,18 @@ public class JsonUtils {
     public static final ObjectMapper mapper = new ObjectMapper();
 
     private static final Logger logger = Logger.getLogger(JsonUtils.class);
+
+    /**
+     *解析 body数据
+     */
+    public static <T> T parseInputSteam(InputStream req, Class<T> tClass) {
+        try {
+            return mapper.readValue(req,tClass);
+        } catch (IOException e) {
+            logger.error("parseInputSteam error", e);
+        }
+        return null;
+    }
 
     /**
      * 转为json

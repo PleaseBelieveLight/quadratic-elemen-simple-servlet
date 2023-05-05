@@ -11,3 +11,11 @@ fun HttpServletResponse.print(msg : String){
 fun HttpServletResponse.printUsuallyState(state : ErrorRequestException){
     print(JsonUtils.serialize(BaseRespBean.getErrorRespBean(state)))
 }
+
+fun Any?.hasData() : String {
+    return if (this is Collection<*> && isEmpty()) {
+        "没有查找到数据"
+    } else {
+        "成功"
+    }
+}

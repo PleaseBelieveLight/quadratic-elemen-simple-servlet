@@ -8,11 +8,8 @@ import jakarta.servlet.http.HttpServlet
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.apache.ibatis.session.SqlSession
-import org.apache.log4j.Logger
 
 abstract class BaseHttpServlet : HttpServlet() {
-
-    private val logger = Logger.getLogger(BaseHttpServlet::class.java)
 
     final override fun doGet(req: HttpServletRequest, resp: HttpServletResponse) {
         initHttpServlet(req, resp, RespState.GET)
@@ -37,13 +34,16 @@ abstract class BaseHttpServlet : HttpServlet() {
             resp.printUsuallyState(ErrorRequestException.PostTypeException(respState))
             return
         }
-        initRespBody(resp)
+        initRespBody(req, resp)
         doResponse(req, resp)
     }
 
-    private fun initRespBody(response: HttpServletResponse) {
-        response.contentType = "text/html" //解决中文乱码
+    private fun initRespBody(req: HttpServletRequest,response: HttpServletResponse) {
+        //响应类型
+        response.contentType = "application/json"
         response.characterEncoding = "UTF-8"
+        //请求编码类型
+        req.characterEncoding = "UTF-8"
     }
 
     /**
@@ -56,21 +56,6 @@ abstract class BaseHttpServlet : HttpServlet() {
             sqlSession = SqlUtils.getSqlSession()
         }
         return sqlSession?.getMapper(clazz)
-    }
-
-    /**
-     * 常用日志格式
-     */
-    fun printTitle(msg:String){
-        logger.info("-==>------------$msg---------------<==")
-    }
-
-    fun printContent(msg: String){
-        logger.info("content-==>：$msg")
-    }
-
-    fun printError(msg: String){
-        logger.info("******************** error：$msg ********************")
     }
 
     override fun destroy() {

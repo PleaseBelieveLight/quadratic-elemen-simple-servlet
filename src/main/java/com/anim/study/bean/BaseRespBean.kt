@@ -1,6 +1,7 @@
 package com.anim.study.bean
 
 import com.anim.study.state.RespState
+import com.anim.study.utils.hasData
 
 data class BaseRespBean<T : Any>(
     val code: Int,
@@ -27,14 +28,10 @@ data class BaseRespBean<T : Any>(
         }
 
         fun <T : Any> getSucceedRespBean(data: T?): BaseRespBean<T> {
-            val message = if (data != null) {
-                if (data is Collection<*> && data.isEmpty()) {
-                    "没有查找到数据"
-                } else {
-                    "成功"
-                }
+            val message = if (data is BasePagerBean<*>){
+                data.data.hasData()
             } else {
-                "没有查找到数据"
+                data.hasData()
             }
             return BaseRespBean(200, message, data, true)
         }
