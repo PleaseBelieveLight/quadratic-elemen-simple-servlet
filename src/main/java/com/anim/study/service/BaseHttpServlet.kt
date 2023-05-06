@@ -1,9 +1,11 @@
 package com.anim.study.service
 
 import com.anim.study.bean.ErrorRequestException
+import com.anim.study.data.DataProvider
 import com.anim.study.state.RespState
 import com.anim.study.utils.SqlUtils
 import com.anim.study.utils.printUsuallyState
+import com.anim.study.utils.readAllHead
 import jakarta.servlet.http.HttpServlet
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -36,6 +38,16 @@ abstract class BaseHttpServlet : HttpServlet() {
         }
         initRespBody(req, resp)
         doResponse(req, resp)
+    }
+
+    fun checkAuthorization(req: HttpServletRequest, resp: HttpServletResponse): Boolean {
+        val authorization: String? = req.getHeader("Authorization")
+        if (authorization != DataProvider.AuthorizationToken) {
+            req.readAllHead()
+            resp.printUsuallyState(ErrorRequestException.IdCheckErrorException)
+            return false
+        }
+        return true
     }
 
     private fun initRespBody(req: HttpServletRequest,response: HttpServletResponse) {

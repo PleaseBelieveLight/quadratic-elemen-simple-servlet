@@ -9,10 +9,7 @@ import com.anim.study.data.body.PagerDataBody
 import com.anim.study.data.pager.PagerUtils
 import com.anim.study.domain.Role
 import com.anim.study.state.RespState
-import com.anim.study.utils.JsonUtils
-import com.anim.study.utils.LogUtils
-import com.anim.study.utils.print
-import com.anim.study.utils.printUsuallyState
+import com.anim.study.utils.*
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 
@@ -28,6 +25,9 @@ class RolesServlet : BaseHttpServlet() {
     }
 
     override fun doResponse(req: HttpServletRequest, resp: HttpServletResponse) {
+        if (!checkAuthorization(req, resp)){
+            return
+        }
         val inputStream = req.inputStream ?: kotlin.run {
             resp.printUsuallyState(ErrorRequestException.FileIdLoseException)
             return

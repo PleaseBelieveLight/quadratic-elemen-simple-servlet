@@ -12,6 +12,7 @@ data class BaseRespBean<T : Any>(
 
     companion object {
 
+        @JvmStatic
         fun getErrorRespBean(errorType: ErrorRequestException): BaseRespBean<String> {
             val data = when (errorType) {
                 is ErrorRequestException.PostTypeException -> {
@@ -23,10 +24,14 @@ data class BaseRespBean<T : Any>(
                 ErrorRequestException.NoFoundDataException -> {
                     "参数类型不匹配"
                 }
+                ErrorRequestException.IdCheckErrorException -> {
+                    "身份验证失败"
+                }
             }
             return BaseRespBean(2023, "服务器请求失败", data, false)
         }
 
+        @JvmStatic
         fun <T : Any> getSucceedRespBean(data: T?): BaseRespBean<T> {
             val message = if (data is BasePagerBean<*>){
                 data.data.hasData()
@@ -47,4 +52,6 @@ sealed class ErrorRequestException {
     object FileIdLoseException : ErrorRequestException()
 
     object NoFoundDataException :  ErrorRequestException()
+
+    object IdCheckErrorException :  ErrorRequestException()
 }
