@@ -29,5 +29,6 @@
 		<mapper resource="com/mapper/UserMapper.xml"/>
 		<mapper resource="com/mapper/CategoryMapper.xml"/>
 		<mapper resource="com/mapper/RoleMapper.xml"/>
+		<mapper resource="com/mapper/CollectMapper.xml"/>
 	</mappers>
 </configuration>

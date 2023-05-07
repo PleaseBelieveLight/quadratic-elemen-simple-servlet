@@ -1,4 +1,4 @@
-package com.anim.study.service
+package com.anim.study.service.comment
 
 import com.anim.study.bean.ErrorRequestException
 import com.anim.study.data.DataProvider

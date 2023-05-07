@@ -37,5 +37,16 @@
     <url-pattern>/roles</url-pattern>
   </servlet-mapping>
 
+  <!-- 用户收藏 -->
+  <servlet>
+    <servlet-name>CollectServlet</servlet-name>
+    <servlet-class>com.anim.study.service.CollectServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CollectServlet</servlet-name>
+    <url-pattern>/collect/save</url-pattern>
+    <url-pattern>/collect/delete</url-pattern>
+    <url-pattern>/collect/find</url-pattern>
+  </servlet-mapping>
 
 </web-app>

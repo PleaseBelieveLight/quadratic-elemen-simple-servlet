@@ -63,7 +63,7 @@
 <!--                            typeHandler="org.apache.ibatis.type.LocalDateTypeHandler"/>-->
 <!--        </table>-->
         <!-- 要生成那些表(更改tableName和domainObjectName就可以) -->
-                    <table tableName="roles" domainObjectName="Role"
+                    <table tableName="collect" domainObjectName="Collect"
                            enableCountByExample="false"
                            enableUpdateByExample="false"
                            enableDeleteByExample="false"
