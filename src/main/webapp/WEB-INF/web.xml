@@ -49,4 +49,25 @@
     <url-pattern>/collect/find</url-pattern>
   </servlet-mapping>
 
+  <!--全局参数，所有类可通过servletRequest.getServletContext().getInitParameter("name")访问-->
+  <context-param>
+    <param-name>name</param-name>
+    <param-value>cartoon_server</param-value>
+  </context-param>
+
+  <!-- 自定义过滤器拦截 -->
+  <filter>
+    <filter-name>EncodeFilter</filter-name>
+    <filter-class>com.anim.study.filter.EncodingFilter</filter-class>
+    <!-- 初始化参数,过滤器类中的成员变量,用web配置 -->
+    <init-param>
+      <param-name>Encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>EncodeFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
 </web-app>

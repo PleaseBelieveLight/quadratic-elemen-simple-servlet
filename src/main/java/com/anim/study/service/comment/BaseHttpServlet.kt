@@ -36,7 +36,6 @@ abstract class BaseHttpServlet : HttpServlet() {
             resp.printUsuallyState(ErrorRequestException.PostTypeException(respState))
             return
         }
-        initRespBody(req, resp)
         doResponse(req, resp)
     }
 
@@ -48,14 +47,6 @@ abstract class BaseHttpServlet : HttpServlet() {
             return false
         }
         return true
-    }
-
-    private fun initRespBody(req: HttpServletRequest,response: HttpServletResponse) {
-        //响应类型
-        response.contentType = "application/json"
-        response.characterEncoding = "UTF-8"
-        //请求编码类型
-        req.characterEncoding = "UTF-8"
     }
 
     /**

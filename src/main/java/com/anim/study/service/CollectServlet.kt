@@ -19,6 +19,7 @@ class CollectServlet : StrictCheckServlet<Collect>(Collect::class.java) {
     override fun doSafeResponse(data: Collect, req: HttpServletRequest, resp: HttpServletResponse) {
         val servletPath = req.servletPath
         if (data.id != null && servletPath == DataProvider.CollectFindUrl) {
+            //查找收藏
             getMapper(CollectMapper::class.java)?.selectByPrimaryKey(data.id)?.let {
                 resp.print(JsonUtils.serialize(BaseRespBean.getSucceedRespBean(it)))
             } ?: kotlin.run {
@@ -26,13 +27,16 @@ class CollectServlet : StrictCheckServlet<Collect>(Collect::class.java) {
             }
         } else {
             val result = if (data.roleId != null && data.userId != null && servletPath == DataProvider.CollectSaveUrl) {
+                //插入收藏记录
                 data.collectTime = Date()
                 getMapper(CollectMapper::class.java)?.insert(data)
             } else if (data.id != null && servletPath == DataProvider.CollectDeleteUrl) {
+                //删除收藏
                 getMapper(CollectMapper::class.java)?.deleteByPrimaryKey(data.id)
             } else {
                 null
             }
+            //输出结果
             if (result == null) {
                 resp.printUsuallyState(ErrorRequestException.NoFoundDataException)
             } else {
