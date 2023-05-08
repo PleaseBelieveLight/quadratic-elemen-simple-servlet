@@ -27,6 +27,9 @@ data class BaseRespBean<T : Any>(
                 ErrorRequestException.IdCheckErrorException -> {
                     "身份验证失败"
                 }
+                ErrorRequestException.UnknownException -> {
+                    "服务器出现故障，请检查传递参数或联系我"
+                }
             }
             return BaseRespBean(2023, "服务器请求失败", data, false)
         }
@@ -54,4 +57,6 @@ sealed class ErrorRequestException {
     object NoFoundDataException :  ErrorRequestException()
 
     object IdCheckErrorException :  ErrorRequestException()
+
+    object UnknownException :  ErrorRequestException()
 }

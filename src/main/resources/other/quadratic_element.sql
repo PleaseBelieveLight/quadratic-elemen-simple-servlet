@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80032
 File Encoding         : 65001
 
-Date: 2023-05-09 00:09:10
+Date: 2023-05-09 00:38:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -44,9 +44,11 @@ CREATE TABLE `collect` (
   `role_id` int DEFAULT NULL,
   `collect_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
+  KEY `role_out_key` (`role_id`),
   KEY `user_out_key` (`user_id`),
-  KEY `role_out_key` (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf16;
+  CONSTRAINT `role_out_key` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`),
+  CONSTRAINT `user_out_key` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf16;
 
 -- ----------------------------
 -- Records of collect
@@ -55,6 +57,10 @@ INSERT INTO `collect` VALUES ('1', '1', '5', '2023-05-07 13:45:45');
 INSERT INTO `collect` VALUES ('2', '1', '7', '2023-05-07 13:46:31');
 INSERT INTO `collect` VALUES ('3', '1', '4', '2023-05-07 13:46:50');
 INSERT INTO `collect` VALUES ('4', '2', '4', '2023-05-09 00:07:39');
+INSERT INTO `collect` VALUES ('23', '1', '5', '2023-05-09 00:21:43');
+INSERT INTO `collect` VALUES ('26', '1', '1', '2023-05-09 00:25:11');
+INSERT INTO `collect` VALUES ('30', '1', '1', '2023-05-09 00:37:33');
+INSERT INTO `collect` VALUES ('32', '2', '1', '2023-05-09 00:37:46');
 
 -- ----------------------------
 -- Table structure for more

@@ -35,21 +35,28 @@ abstract class BaseHttpServlet : HttpServlet() {
             resp.printUsuallyState(ErrorRequestException.PostTypeException(respState))
             return
         }
-        doResponse(req, resp)
+        //"服务器出现故障，请检查传递参数或联系我
+        kotlin.runCatching {
+            doResponse(req, resp)
+        }.takeIf {
+            it.isFailure
+        }?.let {
+            resp.printUsuallyState(ErrorRequestException.UnknownException)
+        }
     }
 
     /**
      * 管理 session 类，需要释放资源
      */
-    private var sqlSession: SqlSession ?= null
+    private var sqlSession: SqlSession? = null
 
     internal val mSqlSession: SqlSession
         get() {
-           return sqlSession ?: SqlUtils.getSqlSession() ?: throw NullPointerException("sqlSession init error")
+            return sqlSession ?: SqlUtils.getSqlSession() ?: throw NullPointerException("sqlSession init error")
         }
 
     fun <T> getMapper(clazz: Class<T>): T? {
-        if (sqlSession == null){
+        if (sqlSession == null) {
             sqlSession = SqlUtils.getSqlSession()
         }
         return sqlSession?.getMapper(clazz)
