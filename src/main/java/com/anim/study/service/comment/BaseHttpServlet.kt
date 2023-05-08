@@ -1,15 +1,14 @@
 package com.anim.study.service.comment
 
 import com.anim.study.bean.ErrorRequestException
-import com.anim.study.data.DataProvider
 import com.anim.study.state.RespState
 import com.anim.study.utils.SqlUtils
 import com.anim.study.utils.printUsuallyState
-import com.anim.study.utils.readAllHead
 import jakarta.servlet.http.HttpServlet
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.apache.ibatis.session.SqlSession
+import java.lang.NullPointerException
 
 abstract class BaseHttpServlet : HttpServlet() {
 
@@ -39,20 +38,15 @@ abstract class BaseHttpServlet : HttpServlet() {
         doResponse(req, resp)
     }
 
-    fun checkAuthorization(req: HttpServletRequest, resp: HttpServletResponse): Boolean {
-        val authorization: String? = req.getHeader("Authorization")
-        if (authorization != DataProvider.AuthorizationToken) {
-            req.readAllHead()
-            resp.printUsuallyState(ErrorRequestException.IdCheckErrorException)
-            return false
-        }
-        return true
-    }
-
     /**
      * 管理 session 类，需要释放资源
      */
     private var sqlSession: SqlSession ?= null
+
+    internal val mSqlSession: SqlSession
+        get() {
+           return sqlSession ?: SqlUtils.getSqlSession() ?: throw NullPointerException("sqlSession init error")
+        }
 
     fun <T> getMapper(clazz: Class<T>): T? {
         if (sqlSession == null){

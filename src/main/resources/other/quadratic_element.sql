@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80032
 File Encoding         : 65001
 
-Date: 2023-04-30 16:28:48
+Date: 2023-05-09 00:09:10
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,11 +20,11 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
-  `typeId` int NOT NULL AUTO_INCREMENT,
-  `typeName` varchar(255) NOT NULL,
+  `type_id` int NOT NULL AUTO_INCREMENT,
+  `type_name` varchar(255) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
   `about` varchar(10000) CHARACTER SET utf16 COLLATE utf16_general_ci DEFAULT NULL,
-  `coverImage` varchar(255) CHARACTER SET utf16 COLLATE utf16_general_ci DEFAULT '',
-  PRIMARY KEY (`typeId`)
+  `cover_image` varchar(255) CHARACTER SET utf16 COLLATE utf16_general_ci DEFAULT '',
+  PRIMARY KEY (`type_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf16;
 
 -- ----------------------------
@@ -33,6 +33,28 @@ CREATE TABLE `category` (
 INSERT INTO `category` VALUES ('1', '原神', '《原神》是由米哈游自研的一款全新开放世界冒险RPG。你将在游戏中探索一个被称作「提瓦特」的幻想世界。 在这广阔的世界中，你可以踏遍七国，邂逅性格各异、能力独特的同伴，与他们一同对抗强敌，踏上寻回血亲之路；也可以不带目的地漫游，沉浸在充满生机的世界里，让好奇心驱使自己发掘各个角落的奥秘⋯⋯ 直到你与分离的血亲重聚，在终点见证一切事物的沉淀。 《原神》PC版技术性开放测试（不删档）在2020.9.15开启，全球同步公测定档2020.9.28。', 'https://gss0.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/34fae6cd7b899e5121a2bee044a7d933c8950d11.jpg');
 INSERT INTO `category` VALUES ('2', '崩坏3', '作为《崩坏3》团队的一部分，miHoYo Anime在这些年陆续制作了十余部高质量短片，相比游戏、音乐等米哈游内部其他的内容创作部门，他们自嘲称自己“可能是每次更新相隔周期最长的小组，基本游戏更新了好几个版本后，我们才能做出一部动画短片作品', 'fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/34fae6cd7b899e5121a2bee044a7d933c8950d11.jpg');
 INSERT INTO `category` VALUES ('3', '王者', '《王者荣耀》是由腾讯游戏天美工作室群开发并运营在Android、IOS、NS平台上的MOBA类国产手游，于2015年11月26日在Android、iOS平台上正式公测，游戏曾经使用名称有《英雄战迹》、《王者联盟》。《王者荣耀》的欧美版本为《传说对决》（Arena Of Valor）。\r\n王者荣耀中的玩法以竞技对战为主，玩家之间进行1V1、3V3、5V5等多种方式的PVP对战，在满足条件后可以参加游戏的排位赛等，还可以参加PVE的闯关模式，是属于推塔类型的游戏。', 'fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/34fae6cd7b899e5121a2bee044a7d933c8950d11.jpg');
+
+-- ----------------------------
+-- Table structure for collect
+-- ----------------------------
+DROP TABLE IF EXISTS `collect`;
+CREATE TABLE `collect` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int DEFAULT NULL,
+  `role_id` int DEFAULT NULL,
+  `collect_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_out_key` (`user_id`),
+  KEY `role_out_key` (`role_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf16;
+
+-- ----------------------------
+-- Records of collect
+-- ----------------------------
+INSERT INTO `collect` VALUES ('1', '1', '5', '2023-05-07 13:45:45');
+INSERT INTO `collect` VALUES ('2', '1', '7', '2023-05-07 13:46:31');
+INSERT INTO `collect` VALUES ('3', '1', '4', '2023-05-07 13:46:50');
+INSERT INTO `collect` VALUES ('4', '2', '4', '2023-05-09 00:07:39');
 
 -- ----------------------------
 -- Table structure for more
@@ -60,16 +82,16 @@ INSERT INTO `more` VALUES ('2', '甘雨的主要输出手法为普通攻击加�
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE `roles` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `roleName` varchar(255) NOT NULL,
+  `role_name` varchar(255) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
   `about` varchar(10000) DEFAULT '',
-  `headImage` varchar(255) DEFAULT '',
+  `head_image` varchar(255) CHARACTER SET utf16 COLLATE utf16_general_ci DEFAULT '',
   `category` int DEFAULT NULL,
   `more` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `role_type` (`category`),
   KEY `more_info` (`more`),
   CONSTRAINT `more_info` FOREIGN KEY (`more`) REFERENCES `more` (`group`),
-  CONSTRAINT `role_type` FOREIGN KEY (`category`) REFERENCES `category` (`typeId`)
+  CONSTRAINT `role_type` FOREIGN KEY (`category`) REFERENCES `category` (`type_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf16;
 
 -- ----------------------------

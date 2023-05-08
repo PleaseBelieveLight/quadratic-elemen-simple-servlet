@@ -22,7 +22,7 @@ data class BaseRespBean<T : Any>(
                     "请求字段参数不全，请仔细检查"
                 }
                 ErrorRequestException.NoFoundDataException -> {
-                    "参数类型不匹配"
+                    "参数类型不匹配，可能不存在该参数或没有找到结果"
                 }
                 ErrorRequestException.IdCheckErrorException -> {
                     "身份验证失败"

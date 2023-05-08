@@ -26,27 +26,16 @@ class RolesServlet : BaseHttpServlet() {
     }
 
     override fun doResponse(req: HttpServletRequest, resp: HttpServletResponse) {
-        if (!checkAuthorization(req, resp)){
-            return
-        }
-        val inputStream = req.inputStream ?: kotlin.run {
-            resp.printUsuallyState(ErrorRequestException.FileIdLoseException)
-            return
-        }
-        JsonUtils.parseInputSteam(inputStream, PagerDataBody<Int>().javaClass)?.run {
+        VisitSafeCheckUtil.doSafePagerResponse<PagerDataBody<Int>>(req, resp)?.run {
             if (!checkNotNull()) {
                 resp.printUsuallyState(ErrorRequestException.FileIdLoseException)
                 return
             }
-            LogUtils.printContent("request body = $this")
             findByUserPager(this)?.let {
                 resp.print(JsonUtils.serialize(BaseRespBean.getSucceedRespBean(it)))
             } ?: kotlin.run {
                 resp.printUsuallyState(ErrorRequestException.NoFoundDataException)
             }
-        }?: kotlin.run {
-            resp.printUsuallyState(ErrorRequestException.NoFoundDataException)
-            return
         }
     }
 

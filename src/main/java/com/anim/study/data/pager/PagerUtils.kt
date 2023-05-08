@@ -11,6 +11,9 @@ import com.anim.study.data.body.PagerDataBody
  */
 object PagerUtils{
 
+    /**
+     * 获取分页结果
+     */
     fun <Data : Any , Page> coverRespPagerInfo(
         requestBody: PagerDataBody<Page>,
         pagerDataSource: PagerDataSource<Data,Page>
