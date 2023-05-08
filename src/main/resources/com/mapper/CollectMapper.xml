@@ -24,57 +24,31 @@
     insert into collect (user_id, role_id, collect_time)
     values (#{userId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{collectTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.anim.study.domain.Collect" >
-    insert into collect
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
+  <!--多表连接查询角色信息并分页 / 延时加载 一对多/ 多对多时使用 fetchType="lazy" -->
+  <resultMap id="CollectRoleResultMap" type="com.anim.study.domain.CollectRole">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="about" property="about" jdbcType="VARCHAR" />
+    <result column="head_image" property="headImage" jdbcType="VARCHAR" />
+    <result column="category" property="category" jdbcType="INTEGER" />
+    <result column="more" property="more" jdbcType="INTEGER" />
+    <result column="collect_time" property="collectTime" jdbcType="TIMESTAMP" />
+<!--    <collection property="" fetchType="lazy"/>-->
+  </resultMap>
+  <select id="selectCollectRoles" resultMap="CollectRoleResultMap" parameterType="java.lang.Integer">
+    select rl.* , ct.collect_time from
+    collect ct left join roles rl
+    on ct.role_id = rl.id
+    <where>
+      <if test="userId != null">
+        ct.user_id = #{userId,jdbcType=INTEGER}
       </if>
-      <if test="userId != null" >
-        user_id,
-      </if>
-      <if test="roleId != null" >
-        role_id,
-      </if>
-      <if test="collectTime != null" >
-        collect_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="roleId != null" >
-        #{roleId,jdbcType=INTEGER},
-      </if>
-      <if test="collectTime != null" >
-        #{collectTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.anim.study.domain.Collect" >
-    update collect
-    <set >
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="roleId != null" >
-        role_id = #{roleId,jdbcType=INTEGER},
-      </if>
-      <if test="collectTime != null" >
-        collect_time = #{collectTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.anim.study.domain.Collect" >
-    update collect
-    set user_id = #{userId,jdbcType=INTEGER},
-      role_id = #{roleId,jdbcType=INTEGER},
-      collect_time = #{collectTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+    </where>
+  </select>
+<!--  <select id="findRolesCount" resultType="long" parameterType="java.lang.Integer">-->
+<!--    select count(1) from-->
+<!--    collect ct left join roles rl-->
+<!--    on ct.role_id = rl.id-->
+<!--    where ct.user_id = #{id,jdbcType=INTEGER}-->
+<!--  </select>-->
 </mapper>

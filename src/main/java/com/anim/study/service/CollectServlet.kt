@@ -20,7 +20,7 @@ class CollectServlet : StrictCheckServlet<Collect>(Collect::class.java) {
         val servletPath = req.servletPath
         if (data.id != null && servletPath == DataProvider.CollectFindUrl) {
             //查找收藏
-            getMapper(CollectMapper::class.java)?.selectByPrimaryKey(data.id)?.let {
+            getMapper(CollectMapper::class.java)?.selectCollectRoles(data.id)?.let {
                 resp.print(JsonUtils.serialize(BaseRespBean.getSucceedRespBean(it)))
             } ?: kotlin.run {
                 resp.printUsuallyState(ErrorRequestException.NoFoundDataException)
