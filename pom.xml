@@ -81,6 +81,14 @@
       <version>2.14.2</version>
     </dependency>
 
+    <!--KClass Kotlin反射包-->
+    <dependency>
+      <groupId>org.jetbrains.kotlin</groupId>
+      <artifactId>kotlin-reflect</artifactId>
+      <version>RELEASE</version>
+      <scope>compile</scope>
+    </dependency>
+
   </dependencies>
 
   <build>

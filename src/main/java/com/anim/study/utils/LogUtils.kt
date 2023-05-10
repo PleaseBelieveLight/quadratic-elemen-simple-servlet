@@ -10,17 +10,17 @@ object LogUtils {
     private val logger = Logger.getLogger(LogUtils::class.java)
 
     @JvmStatic
-    fun printTitle(msg:String){
+    fun printTitle(msg:String?){
         logger.info("===>------------$msg---------------<===")
     }
 
     @JvmStatic
-    fun printContent(msg: String){
+    fun printContent(msg: String?){
         logger.info("content===>：$msg")
     }
 
     @JvmStatic
-    fun printError(msg: String){
+    fun printError(msg: String?){
         logger.info("******************** error：$msg ********************")
     }
 }

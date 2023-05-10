@@ -40,7 +40,7 @@
   <!-- 用户收藏 -->
   <servlet>
     <servlet-name>CollectServlet</servlet-name>
-    <servlet-class>com.anim.study.service.CollectServlet</servlet-class>
+    <servlet-class>com.anim.study.service.NewCollectServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>CollectServlet</servlet-name>
